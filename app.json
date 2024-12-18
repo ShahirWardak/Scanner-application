@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Scanner-app",
-    "slug": "Scanner-app",
+    "name": "Scanner-application",
+    "slug": "Scanner-application",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
