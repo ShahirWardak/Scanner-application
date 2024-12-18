@@ -2,12 +2,16 @@ import { StyleSheet } from "react-native";
 import { Activity } from "@tamagui/lucide-icons";
 import { Text, View } from "react-native";
 import { Button } from "tamagui";
-import { TestComponent } from "@/components/test.component";
 import { useState } from "react";
+import { CameraComponent } from "@/components/camera.component";
 
 export default function Index() {
   const [test, setTest] = useState(false);
-  const testText = "Hello!";
+  const [scanned, setScanned] = useState("Not scanned");
+
+  function onItemScanned() {
+    setScanned("Scanned");
+  }
 
   return (
     <View
@@ -18,10 +22,6 @@ export default function Index() {
       }}
     >
       <Text style={styles.heading}>Welcome!</Text>
-
-      <Text style={styles.description}>
-        Edit app/index.tsx to edit this screen.
-      </Text>
 
       <Button
         themeInverse
@@ -35,9 +35,9 @@ export default function Index() {
       </Button>
 
       <Text style={styles.testStyle}>{test.toString()}</Text>
-      <Text>{testText}</Text>
 
-      <TestComponent></TestComponent>
+      <CameraComponent function={setScanned} />
+      <Text style={styles.testStyle}>{scanned}</Text>
     </View>
   );
 }
