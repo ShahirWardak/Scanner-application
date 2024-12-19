@@ -4,14 +4,42 @@ import { Text, View } from "react-native";
 import { Button } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { FIREBASE_DB } from "@/firebaseConfig";
+import { itemType } from "@/types/item.type";
 
 export default function Index() {
-  const [test, setTest] = useState(false);
   const [scanned, setScanned] = useState("Not scanned");
+  const [items, setItems] = useState<itemType[]>([]);
 
-  function onItemScanned() {
-    setScanned("Scanned");
+  async function readData() {
+    getDocs(collection(FIREBASE_DB, "items")).then((data) => {
+      setItems([]);
+      var tempArray: itemType[] = [];
+      data.forEach((doc) => {
+        tempArray.push({
+          code: doc.data().code,
+          cost: doc.data().cost,
+          name: doc.data().name,
+        });
+      });
+      setItems([...tempArray]);
+    });
   }
+
+  /* Code to add to database
+  async function addData() {
+    try {
+      const docRef = await addDoc(collection(FIREBASE_DB, "users"), {
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }*/
 
   return (
     <View
@@ -28,13 +56,17 @@ export default function Index() {
         iconAfter={Activity}
         size="$3"
         onPress={() => {
-          setTest(!test);
+          readData();
         }}
       >
         Button!
       </Button>
 
-      <Text style={styles.testStyle}>{test.toString()}</Text>
+      {items.map((item, index) => (
+        <Text style={styles.testStyle} key={index}>
+          {item.name} {item.cost}
+        </Text>
+      ))}
 
       <CameraComponent function={setScanned} />
       <Text style={styles.testStyle}>{scanned}</Text>
@@ -58,6 +90,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     fontSize: 20,
-    color: "white",
+    //color: "white",
   },
 });
