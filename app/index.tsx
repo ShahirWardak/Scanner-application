@@ -1,17 +1,15 @@
 import { StyleSheet } from "react-native";
-import { Activity } from "@tamagui/lucide-icons";
+import { ArrowRight } from "@tamagui/lucide-icons";
 import { Text, View } from "react-native";
 import { Button } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
+import { itemType } from "@/types/item.type";
+import { databaseService } from "@/services/database.service";
 
 export default function Index() {
-  const [test, setTest] = useState(false);
   const [scanned, setScanned] = useState("Not scanned");
-
-  function onItemScanned() {
-    setScanned("Scanned");
-  }
+  const [items, setItems] = useState<itemType[]>([]);
 
   return (
     <View
@@ -25,16 +23,31 @@ export default function Index() {
 
       <Button
         themeInverse
-        iconAfter={Activity}
+        iconAfter={ArrowRight}
         size="$3"
-        onPress={() => {
-          setTest(!test);
+        onPress={async () => {
+          setItems(await databaseService.readData());
         }}
       >
-        Button!
+        Read!
       </Button>
 
-      <Text style={styles.testStyle}>{test.toString()}</Text>
+      <Button
+        themeInverse
+        iconAfter={ArrowRight}
+        size="$3"
+        onPress={async () => {
+          setItems([]);
+        }}
+      >
+        Reset!
+      </Button>
+
+      {items.map((item, index) => (
+        <Text style={styles.testStyle} key={index}>
+          {item.name} {item.cost}
+        </Text>
+      ))}
 
       <CameraComponent function={setScanned} />
       <Text style={styles.testStyle}>{scanned}</Text>
@@ -58,6 +71,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     fontSize: 20,
-    color: "white",
+    //color: "white",
   },
 });
