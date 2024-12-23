@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 import { Button } from "tamagui";
 import { CameraView, useCameraPermissions } from "expo-camera";
+import React from "react";
 
 type Props = {
   function: Function;
@@ -26,18 +27,20 @@ export function CameraComponent({ function: handleFunction }: Props) {
   }
 
   return (
-    <CameraView
-      style={styles.camera}
-      facing="back"
-      barcodeScannerSettings={{
-        barcodeTypes: ["ean13"],
-      }}
-      onBarcodeScanned={({ data }) => {
-        handleFunction(data);
-      }}
-    >
-      <View style={styles.cameraContainer}></View>
-    </CameraView>
+    <>
+      <CameraView
+        style={styles.camera}
+        facing="back"
+        barcodeScannerSettings={{
+          barcodeTypes: ["ean13"],
+        }}
+        onBarcodeScanned={({ data }) => {
+          handleFunction(data);
+        }}
+      >
+        <View style={styles.cameraContainer}></View>
+      </CameraView>
+    </>
   );
 }
 

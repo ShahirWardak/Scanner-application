@@ -17,6 +17,14 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+# Android
+.idea
+.gradle
+local.properties
+*.iml
+/packages/react-native/android/*
+!/packages/react-native/android/README.md
+
 # Metro
 .metro-health-check*
 
@@ -36,3 +44,7 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# Visual Studio Code (config dir - if present, this merges user defined
+# workspace settings on top of react-native.code-workspace)
+/.vscode

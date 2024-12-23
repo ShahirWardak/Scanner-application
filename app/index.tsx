@@ -1,45 +1,15 @@
 import { StyleSheet } from "react-native";
-import { Activity } from "@tamagui/lucide-icons";
+import { ArrowRight } from "@tamagui/lucide-icons";
 import { Text, View } from "react-native";
 import { Button } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { FIREBASE_DB } from "@/firebaseConfig";
 import { itemType } from "@/types/item.type";
+import { databaseService } from "@/services/database.service";
 
 export default function Index() {
   const [scanned, setScanned] = useState("Not scanned");
   const [items, setItems] = useState<itemType[]>([]);
-
-  async function readData() {
-    getDocs(collection(FIREBASE_DB, "items")).then((data) => {
-      setItems([]);
-      var tempArray: itemType[] = [];
-      data.forEach((doc) => {
-        tempArray.push({
-          code: doc.data().code,
-          cost: doc.data().cost,
-          name: doc.data().name,
-        });
-      });
-      setItems([...tempArray]);
-    });
-  }
-
-  /* Code to add to database
-  async function addData() {
-    try {
-      const docRef = await addDoc(collection(FIREBASE_DB, "users"), {
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }*/
 
   return (
     <View
@@ -53,13 +23,24 @@ export default function Index() {
 
       <Button
         themeInverse
-        iconAfter={Activity}
+        iconAfter={ArrowRight}
         size="$3"
-        onPress={() => {
-          readData();
+        onPress={async () => {
+          setItems(await databaseService.readData());
         }}
       >
-        Button!
+        Read!
+      </Button>
+
+      <Button
+        themeInverse
+        iconAfter={ArrowRight}
+        size="$3"
+        onPress={async () => {
+          setItems([]);
+        }}
+      >
+        Reset!
       </Button>
 
       {items.map((item, index) => (
