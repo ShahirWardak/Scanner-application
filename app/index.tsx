@@ -43,19 +43,12 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   heading: {
-    flexDirection: "row",
-    alignItems: "center",
     gap: 6,
     marginBottom: 50,
     fontSize: 40,
     fontWeight: "bold",
   },
-  description: {
-    marginBottom: 20,
-  },
   testStyle: {
-    flexDirection: "row",
-    alignItems: "center",
     fontSize: 20,
   },
 });
