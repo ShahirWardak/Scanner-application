@@ -1,26 +1,29 @@
 import { itemType } from "@/types/item.type";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { FIREBASE_DB } from "@/firebaseConfig";
 
 export class DatabaseService {
-  public items: itemType[] = [];
-
   // Fetch data from the database
-  public async readData() {
-    await getDocs(collection(FIREBASE_DB, "items")).then((data) => {
-      this.items = [];
-      var tempArray: itemType[] = [];
-      data.forEach((doc) => {
-        tempArray.push({
-          code: doc.data().code,
-          cost: doc.data().cost,
-          name: doc.data().name,
-        });
-      });
-      this.items = [...tempArray];
+  public async readData(itemCode: Number): Promise<itemType | null> {
+    const collectionRef = collection(FIREBASE_DB, "items");
+    const q = query(collectionRef, where("code", "==", itemCode));
+    var item: itemType | null = null;
+
+    await getDocs(q).then((data) => {
+      if (data.empty) {
+        console.log("NO MATCH FOUND");
+        return null;
+      }
+
+      const doc = data.docs[0];
+      item = {
+        code: doc.data().code,
+        name: doc.data().name,
+        cost: doc.data().cost,
+      };
     });
 
-    return this.items;
+    return item;
   }
 
   // Update database

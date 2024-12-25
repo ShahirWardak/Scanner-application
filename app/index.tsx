@@ -1,15 +1,15 @@
 import { StyleSheet } from "react-native";
 import { ArrowRight } from "@tamagui/lucide-icons";
-import { Text, View } from "react-native";
-import { Button } from "tamagui";
+import { View } from "react-native";
+import { Button, Text } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
 import { databaseService } from "@/services/database.service";
+import { router } from "expo-router";
 
 export default function Index() {
-  const [scanned, setScanned] = useState("Not scanned");
-  const [items, setItems] = useState<itemType[]>([]);
+  const [items, setItems] = useState<itemType[]>([]); //update to fetch list from service
 
   return (
     <View
@@ -25,22 +25,11 @@ export default function Index() {
         themeInverse
         iconAfter={ArrowRight}
         size="$3"
-        onPress={async () => {
-          setItems(await databaseService.readData());
+        onPress={() => {
+          router.replace("/scanner");
         }}
       >
-        Read!
-      </Button>
-
-      <Button
-        themeInverse
-        iconAfter={ArrowRight}
-        size="$3"
-        onPress={async () => {
-          setItems([]);
-        }}
-      >
-        Reset!
+        Scan
       </Button>
 
       {items.map((item, index) => (
@@ -48,29 +37,18 @@ export default function Index() {
           {item.name} {item.cost}
         </Text>
       ))}
-
-      <CameraComponent function={setScanned} />
-      <Text style={styles.testStyle}>{scanned}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    flexDirection: "row",
-    alignItems: "center",
     gap: 6,
     marginBottom: 50,
     fontSize: 40,
     fontWeight: "bold",
   },
-  description: {
-    marginBottom: 20,
-  },
   testStyle: {
-    flexDirection: "row",
-    alignItems: "center",
     fontSize: 20,
-    //color: "white",
   },
 });
