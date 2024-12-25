@@ -1,37 +1,58 @@
 import { StyleSheet } from "react-native";
 import { ArrowLeft, ArrowRight, Camera } from "@tamagui/lucide-icons";
 import { View } from "react-native";
-import { Button, Text } from "tamagui";
+import { AlertDialog, Button, Spinner, Text, YStack } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
 import { databaseService } from "@/services/database.service";
 import { router } from "expo-router";
+import React from "react";
 
-export default function Index() {
+export default function Scanner() {
   // Test item code: 1234567890128
   const [scannedCode, setScannedCode] = useState<Number | null>(null);
   const [item, setItem] = useState<itemType | null>(null);
-  var scanPending = false;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [scanPending, setScanPending] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleItemScan(itemCode: Number) {
+    console.log(scanPending);
     if (scanPending) {
       return;
     }
-    scanPending = true;
+    setScanPending(true);
+    setLoading(true);
+    onDialogOpen();
     setScannedCode(itemCode);
-    console.log("item scanned: ", itemCode);
 
     databaseService.readData(Number(itemCode)).then((data) => {
       if (data) {
         setItem(data);
-        console.log("data found: ", data);
       } else {
         setItem(null);
-        console.log("data not found");
       }
-      scanPending = false;
+
+      setLoading(false);
     });
+  }
+
+  function onDialogOpen() {
+    setOpenDialog(true);
+  }
+
+  function onDialogAccept() {
+    setOpenDialog(false);
+    setScanPending(false);
+    /* handle adding item to user service */
+    console.log("Dialog Accepted");
+  }
+
+  function onDialogCancel() {
+    setOpenDialog(false);
+    setScanPending(false);
+    console.log("Dialog cancelled");
   }
 
   return (
@@ -55,16 +76,56 @@ export default function Index() {
         Back!
       </Button>
 
-      {item && (
-        <Text style={styles.testStyle}>
-          {item.name} {item.cost}
-        </Text>
-      )}
-
-      {!item && <Text style={styles.testStyle}>Item not found</Text>}
-
       <CameraComponent function={handleItemScan} />
-      <Text style={styles.testStyle}>{scannedCode?.toString()}</Text>
+
+      <AlertDialog open={openDialog}>
+        <AlertDialog.Portal>
+          <AlertDialog.Overlay key="overlay" />
+
+          <AlertDialog.Content key="content">
+            <AlertDialog.Title key="title">
+              <Text>{scannedCode?.toString()}</Text>
+            </AlertDialog.Title>
+
+            {item != null && (
+              <>
+                <AlertDialog.Description key="description">
+                  <YStack>
+                    <Text>{item.name}</Text>
+                    <Text>{item.cost}</Text>
+                    <Text>{item.code}</Text>
+                  </YStack>
+                </AlertDialog.Description>
+
+                <AlertDialog.Action key="accept">
+                  <Button
+                    themeInverse
+                    size="$3"
+                    onPress={() => onDialogAccept()}
+                  >
+                    Accept
+                  </Button>
+                </AlertDialog.Action>
+              </>
+            )}
+
+            {item == null &&
+              (loading ? (
+                <Spinner size="small" color="$green10" />
+              ) : (
+                <AlertDialog.Description key="description">
+                  <Text>Item not found</Text>
+                </AlertDialog.Description>
+              ))}
+
+            <AlertDialog.Cancel key="cancel">
+              <Button themeInverse size="$3" onPress={() => onDialogCancel()}>
+                Cancel
+              </Button>
+            </AlertDialog.Cancel>
+          </AlertDialog.Content>
+        </AlertDialog.Portal>
+      </AlertDialog>
     </View>
   );
 }
