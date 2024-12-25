@@ -6,6 +6,7 @@ import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
 import { databaseService } from "@/services/database.service";
+import { router } from "expo-router";
 
 export default function Index() {
   const [scanned, setScanned] = useState("Not scanned");
@@ -25,22 +26,11 @@ export default function Index() {
         themeInverse
         iconAfter={ArrowRight}
         size="$3"
-        onPress={async () => {
-          setItems(await databaseService.readData());
+        onPress={() => {
+          router.replace("/scanner");
         }}
       >
-        Read!
-      </Button>
-
-      <Button
-        themeInverse
-        iconAfter={ArrowRight}
-        size="$3"
-        onPress={async () => {
-          setItems([]);
-        }}
-      >
-        Reset!
+        Scan
       </Button>
 
       {items.map((item, index) => (
@@ -48,9 +38,6 @@ export default function Index() {
           {item.name} {item.cost}
         </Text>
       ))}
-
-      <CameraComponent function={setScanned} />
-      <Text style={styles.testStyle}>{scanned}</Text>
     </View>
   );
 }
