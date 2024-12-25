@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { ArrowRight } from "@tamagui/lucide-icons";
-import { Text, View } from "react-native";
-import { Button } from "tamagui";
+import { View } from "react-native";
+import { Button, Text } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
@@ -9,8 +9,7 @@ import { databaseService } from "@/services/database.service";
 import { router } from "expo-router";
 
 export default function Index() {
-  const [scanned, setScanned] = useState("Not scanned");
-  const [items, setItems] = useState<itemType[]>([]);
+  const [items, setItems] = useState<itemType[]>([]); //update to fetch list from service
 
   return (
     <View
@@ -58,6 +57,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     fontSize: 20,
-    //color: "white",
   },
 });

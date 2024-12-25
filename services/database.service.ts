@@ -9,31 +9,9 @@ export class DatabaseService {
     const q = query(collectionRef, where("code", "==", itemCode));
     var item: itemType | null = null;
 
-    /*try {
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        console.log("NO MATCH FOUND");
-        // No matching documents
-        return null;
-      }
-
-      // Return the first matching item
-      const doc = querySnapshot.docs[0];
-      return {
-        code: doc.data().code,
-        name: doc.data().name,
-        cost: doc.data().cost,
-      };
-    } catch (error) {
-      console.error("Error reading data: ", error);
-      throw new Error("Failed to fetch item");
-    }*/
-
     await getDocs(q).then((data) => {
       if (data.empty) {
         console.log("NO MATCH FOUND");
-        // No matching documents
         return null;
       }
 

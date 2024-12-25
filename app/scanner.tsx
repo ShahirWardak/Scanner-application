@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { ArrowLeft, ArrowRight, Camera } from "@tamagui/lucide-icons";
-import { Text, View } from "react-native";
-import { Button } from "tamagui";
+import { View } from "react-native";
+import { Button, Text } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
@@ -9,18 +9,28 @@ import { databaseService } from "@/services/database.service";
 import { router } from "expo-router";
 
 export default function Index() {
-  const [scannedCode, setScannedCode] = useState<Number | null>(1234567890128);
+  // Test item code: 1234567890128
+  const [scannedCode, setScannedCode] = useState<Number | null>(null);
   const [item, setItem] = useState<itemType | null>(null);
+  var scanPending = false;
 
-  function lookupItem(itemCode: Number) {
-    databaseService.readData(itemCode).then((data) => {
+  function handleItemScan(itemCode: Number) {
+    if (scanPending) {
+      return;
+    }
+    scanPending = true;
+    setScannedCode(itemCode);
+    console.log("item scanned: ", itemCode);
+
+    databaseService.readData(Number(itemCode)).then((data) => {
       if (data) {
-        console.log("IF");
         setItem(data);
+        console.log("data found: ", data);
       } else {
-        console.log("ELSE");
         setItem(null);
+        console.log("data not found");
       }
+      scanPending = false;
     });
   }
 
@@ -33,38 +43,6 @@ export default function Index() {
       }}
     >
       <Text style={styles.heading}>Scanner</Text>
-
-      <Button
-        themeInverse
-        iconAfter={ArrowRight}
-        size="$3"
-        onPress={() => {
-          if (scannedCode) {
-            lookupItem(scannedCode);
-          } else {
-            setItem(null);
-          }
-        }}
-      >
-        Read!
-      </Button>
-
-      <Button
-        themeInverse
-        iconAfter={Camera}
-        size="$3"
-        onPress={() => {
-          if (scannedCode == null) {
-            setScannedCode(123);
-          } else if (scannedCode == 123) {
-            setScannedCode(1234567890128);
-          } else {
-            setScannedCode(null);
-          }
-        }}
-      >
-        Fake Scan!
-      </Button>
 
       <Button
         themeInverse
@@ -85,7 +63,7 @@ export default function Index() {
 
       {!item && <Text style={styles.testStyle}>Item not found</Text>}
 
-      <CameraComponent function={setScannedCode} />
+      <CameraComponent function={handleItemScan} />
       <Text style={styles.testStyle}>{scannedCode?.toString()}</Text>
     </View>
   );
@@ -107,6 +85,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     fontSize: 20,
-    //color: "white",
   },
 });
