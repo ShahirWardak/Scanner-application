@@ -8,17 +8,17 @@ import { itemType } from "@/types/item.type";
 import { databaseService } from "@/services/database.service";
 import { router } from "expo-router";
 import React from "react";
+import { cartService } from "@/services/cart.service";
 
 export default function Scanner() {
   // Test item code: 1234567890128
-  const [scannedCode, setScannedCode] = useState<Number | null>(null);
+  const [scannedCode, setScannedCode] = useState<number | null>(null);
   const [item, setItem] = useState<itemType | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [scanPending, setScanPending] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  function handleItemScan(itemCode: Number) {
-    console.log(scanPending);
+  function handleItemScan(itemCode: number) {
     if (scanPending) {
       return;
     }
@@ -45,8 +45,11 @@ export default function Scanner() {
   function onDialogAccept() {
     setOpenDialog(false);
     setScanPending(false);
-    /* handle adding item to user service */
-    console.log("Dialog Accepted");
+
+    if (item) {
+      cartService.addToCart(item, 1);
+      router.replace("/");
+    }
   }
 
   function onDialogCancel() {
@@ -103,7 +106,7 @@ export default function Scanner() {
                     size="$3"
                     onPress={() => onDialogAccept()}
                   >
-                    Accept
+                    Add Item
                   </Button>
                 </AlertDialog.Action>
               </>

@@ -7,6 +7,7 @@ import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
 import { databaseService } from "@/services/database.service";
 import { router } from "expo-router";
+import ItemCart from "./item-cart";
 
 export default function Index() {
   const [items, setItems] = useState<itemType[]>([]); //update to fetch list from service
@@ -21,6 +22,8 @@ export default function Index() {
     >
       <Text style={styles.heading}>Welcome!</Text>
 
+      <ItemCart />
+
       <Button
         themeInverse
         iconAfter={ArrowRight}
@@ -31,12 +34,6 @@ export default function Index() {
       >
         Scan
       </Button>
-
-      {items.map((item, index) => (
-        <Text style={styles.testStyle} key={index}>
-          {item.name} {item.cost}
-        </Text>
-      ))}
     </View>
   );
 }

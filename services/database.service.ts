@@ -4,7 +4,7 @@ import { FIREBASE_DB } from "@/firebaseConfig";
 
 export class DatabaseService {
   // Fetch data from the database
-  public async readData(itemCode: Number): Promise<itemType | null> {
+  public async readData(itemCode: number): Promise<itemType | null> {
     const collectionRef = collection(FIREBASE_DB, "items");
     const q = query(collectionRef, where("code", "==", itemCode));
     var item: itemType | null = null;
