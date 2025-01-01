@@ -1,7 +1,12 @@
 import { StyleSheet } from "react-native";
-import { Text, View } from "react-native";
-import { AlertDialog, Button, Spinner, VisuallyHidden, YStack } from "tamagui";
-import { CameraView, useCameraPermissions } from "expo-camera";
+import {
+  AlertDialog,
+  Button,
+  Text,
+  Spinner,
+  VisuallyHidden,
+  YStack,
+} from "tamagui";
 import React from "react";
 import { itemType } from "@/types/item.type";
 import { cartService } from "@/services/cart.service";
@@ -22,10 +27,6 @@ export function ScanDialogComponent({
   setOpen,
   setScanning,
 }: Props) {
-  function onDialogOpen() {
-    setOpen(true);
-  }
-
   function onDialogAccept() {
     setOpen(false);
     setScanning(false);

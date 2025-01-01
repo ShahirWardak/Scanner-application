@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import React from "react";
 import { cartService } from "@/services/cart.service";
 import { ScanDialogComponent } from "@/components/scan-dialog.component";
+import { ScanOverlayComponent } from "@/components/scan-overlay.component";
 
 export default function Scanner() {
   // Test item code: 1234567890128
@@ -47,7 +48,17 @@ export default function Scanner() {
       <View style={styles.cameraWrapper}>
         <CameraComponent function={handleItemScan} />
 
+        {/* 
         <ScanDialogComponent
+          item={item}
+          loading={loading}
+          open={openDialog}
+          setOpen={setOpenDialog}
+          setScanning={setScanPending}
+        />
+        */}
+
+        <ScanOverlayComponent
           item={item}
           loading={loading}
           open={openDialog}
@@ -56,6 +67,16 @@ export default function Scanner() {
         />
       </View>
 
+      <Button
+        themeInverse
+        size="$6"
+        style={styles.buttonStyle}
+        onPress={() => {
+          onDialogOpen();
+        }}
+      >
+        Open
+      </Button>
       <Button
         themeInverse
         size="$6"
