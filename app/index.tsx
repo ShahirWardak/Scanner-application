@@ -1,54 +1,63 @@
 import { StyleSheet } from "react-native";
-import { ArrowRight } from "@tamagui/lucide-icons";
 import { View } from "react-native";
-import { Button, Text } from "tamagui";
-import { useState } from "react";
-import { CameraComponent } from "@/components/camera.component";
-import { itemType } from "@/types/item.type";
-import { databaseService } from "@/services/database.service";
+import { Button } from "tamagui";
 import { router } from "expo-router";
+import ItemCart from "./item-cart";
 
 export default function Index() {
-  const [items, setItems] = useState<itemType[]>([]); //update to fetch list from service
-
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={styles.heading}>Welcome!</Text>
+    <View style={styles.container}>
+      <View style={styles.cartWrapper}>
+        <ItemCart />
+      </View>
 
       <Button
         themeInverse
-        iconAfter={ArrowRight}
-        size="$3"
+        size="$6"
+        style={styles.buttonStyle}
         onPress={() => {
           router.replace("/scanner");
         }}
       >
         Scan
       </Button>
-
-      {items.map((item, index) => (
-        <Text style={styles.testStyle} key={index}>
-          {item.name} {item.cost}
-        </Text>
-      ))}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    gap: 6,
-    marginBottom: 50,
-    fontSize: 40,
-    fontWeight: "bold",
+  container: {
+    flex: 1,
+    alignItems: "center",
   },
-  testStyle: {
-    fontSize: 20,
+  cartWrapper: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  buttonWrapper: {
+    backgroundColor: "lightgray",
+    padding: 10,
+    paddingTop: 15,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  buttonStyle: {
+    width: "95%",
+    margin: 40,
+    fontWeight: "bold",
+    fontSize: 24,
+    backgroundColor: "green",
+    color: "white",
+
+    //Shadows:
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
   },
 });

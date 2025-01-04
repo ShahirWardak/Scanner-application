@@ -3,11 +3,10 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { FIREBASE_API_KEY } from "@env";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY,
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "scanner-items.firebaseapp.com",
   projectId: "scanner-items",
   storageBucket: "scanner-items.firebasestorage.app",
