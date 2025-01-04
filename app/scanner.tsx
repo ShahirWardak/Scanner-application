@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
-import { Button } from "tamagui";
+import { Button, Spinner, useThemeName } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
@@ -18,6 +18,7 @@ export default function Scanner() {
   const [openDialog, setOpenDialog] = useState(true);
   const [scanPending, setScanPending] = useState(false);
   const [loading, setLoading] = useState(false);
+  const themeName = useThemeName();
 
   function handleItemScan(itemCode: number) {
     if (scanPending) {
@@ -46,25 +47,32 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       <View style={styles.cameraWrapper}>
-        <CameraComponent function={handleItemScan} />
+        {!openDialog && <CameraComponent function={handleItemScan} />}
 
-        {/* 
-        <ScanDialogComponent
-          item={item}
-          loading={loading}
-          open={openDialog}
-          setOpen={setOpenDialog}
-          setScanning={setScanPending}
-        />
-        */}
-
-        <ScanOverlayComponent
-          item={item}
-          loading={loading}
-          open={openDialog}
-          setOpen={setOpenDialog}
-          setScanning={setScanPending}
-        />
+        {openDialog && (
+          <>
+            {/*
+            <ScanDialogComponent
+              item={item}
+              loading={loading}
+              open={openDialog}
+              setOpen={setOpenDialog}
+              setScanning={setScanPending}
+            />
+            */}
+            <Spinner
+              size="large"
+              color={themeName === "dark" ? "lightgray" : "gray"}
+            ></Spinner>
+            <ScanOverlayComponent
+              item={item}
+              loading={loading}
+              open={openDialog}
+              setOpen={setOpenDialog}
+              setScanning={setScanPending}
+            />
+          </>
+        )}
       </View>
 
       <Button

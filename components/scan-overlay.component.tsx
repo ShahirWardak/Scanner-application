@@ -138,7 +138,6 @@ const SheetContents = memo(
                   <Text>Item not found.</Text>
                   <Text>Add item?</Text>
                 </YStack>
-                <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
                 <XStack>
                   <Button
                     size="$6"
@@ -159,6 +158,7 @@ const SheetContents = memo(
                     Yes
                   </Button>
                 </XStack>
+                <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
               </>
             )}
           </>
@@ -192,19 +192,17 @@ function InnerSheet(props: SheetProps) {
         alignItems="center"
         gap="$5"
       >
-        <Sheet.ScrollView>
-          <YStack p="$5" gap="$8">
-            <Button
-              size="$6"
-              circular
-              alignSelf="center"
-              icon={X}
-              onPress={() => props.onOpenChange?.(false)}
-            />
+        <YStack p="$5" gap="$8">
+          <Button
+            size="$6"
+            circular
+            alignSelf="center"
+            icon={X}
+            onPress={() => props.onOpenChange?.(false)}
+          />
 
-            <H2>Hello world</H2>
-          </YStack>
-        </Sheet.ScrollView>
+          <H2>Hello world</H2>
+        </YStack>
       </Sheet.Frame>
     </Sheet>
   );
