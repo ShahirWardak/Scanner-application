@@ -24,7 +24,7 @@ type Props = {
   open: boolean;
   loading: boolean;
   setOpen: Function;
-  setScanning: Function;
+  setSearching: Function;
 };
 
 export function ScanOverlayComponent({
@@ -32,13 +32,13 @@ export function ScanOverlayComponent({
   open,
   loading,
   setOpen,
-  setScanning,
+  setSearching,
 }: Props) {
   const [innerOpen, setInnerOpen] = React.useState(false);
 
   function onDialogAccept() {
     setOpen(false);
-    setScanning(false);
+    setSearching(false);
 
     if (item) {
       cartService.addToCart(item, 1);
@@ -48,7 +48,7 @@ export function ScanOverlayComponent({
 
   function onDialogCancel() {
     setOpen(false);
-    setScanning(false);
+    setSearching(false);
   }
 
   return (

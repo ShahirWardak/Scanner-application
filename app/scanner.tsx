@@ -10,26 +10,44 @@ import React from "react";
 import { cartService } from "@/services/cart.service";
 import { ScanDialogComponent } from "@/components/scan-dialog.component";
 import { ScanOverlayComponent } from "@/components/scan-overlay.component";
+import { ItemSearchComponent } from "@/components/item-search.component";
 
 export default function Scanner() {
   // Test item code: 1234567890128
-  const [scannedCode, setScannedCode] = useState<number | null>(null);
   const [item, setItem] = useState<itemType | null>(null);
   const [openDialog, setOpenDialog] = useState(true);
-  const [scanPending, setScanPending] = useState(false);
+  const [searchPending, setSearchPending] = useState(false);
   const [loading, setLoading] = useState(false);
   const themeName = useThemeName();
 
   function handleItemScan(itemCode: number) {
-    if (scanPending) {
+    if (searchPending) {
       return;
     }
-    setScanPending(true);
+    setSearchPending(true);
     setLoading(true);
     onDialogOpen();
-    setScannedCode(itemCode);
 
-    databaseService.readData(Number(itemCode)).then((data) => {
+    databaseService.fetchItemByCode(Number(itemCode)).then((data) => {
+      if (data) {
+        setItem(data);
+      } else {
+        setItem(null);
+      }
+
+      setLoading(false);
+    });
+  }
+
+  function handleItemSearch(itemName: string) {
+    if (searchPending) {
+      return;
+    }
+    setSearchPending(true);
+    setLoading(true);
+    onDialogOpen();
+
+    databaseService.fetchItemByName(itemName).then((data) => {
       if (data) {
         setItem(data);
       } else {
@@ -47,7 +65,12 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       <View style={styles.cameraWrapper}>
-        {!openDialog && <CameraComponent function={handleItemScan} />}
+        {!openDialog && (
+          <>
+            <CameraComponent function={handleItemScan} />
+            <ItemSearchComponent handleFunction={handleItemSearch} />
+          </>
+        )}
 
         {openDialog && (
           <>
@@ -69,7 +92,7 @@ export default function Scanner() {
               loading={loading}
               open={openDialog}
               setOpen={setOpenDialog}
-              setScanning={setScanPending}
+              setSearching={setSearchPending}
             />
           </>
         )}
