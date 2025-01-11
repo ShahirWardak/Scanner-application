@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import { Button } from "tamagui";
 import { router } from "expo-router";
-import ItemCart from "./item-cart";
+import ItemCart from "../../components/item-cart";
 
 export default function Index() {
   return (
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   cartWrapper: {
     flex: 1,
     justifyContent: "center",
+    marginTop: 100,
   },
   buttonWrapper: {
     backgroundColor: "lightgray",

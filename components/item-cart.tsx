@@ -9,6 +9,7 @@ import {
   YGroup,
   Separator,
   XStack,
+  ScrollView,
 } from "tamagui";
 import React, { useState } from "react";
 import { cartType } from "@/types/cart.type";
@@ -25,6 +26,66 @@ export default function ItemCart() {
         quantity: 1,
         totalCost: 3.99,
       },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
+      {
+        item: { name: "Test Item", code: 123456, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+      },
     ],
   });
 
@@ -36,7 +97,7 @@ export default function ItemCart() {
   }
 
   return (
-    <View>
+    <ScrollView>
       {itemCart.items.length > 0 ? (
         <YGroup
           alignSelf="center"
@@ -85,7 +146,7 @@ export default function ItemCart() {
           Cart is empty
         </Text>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
