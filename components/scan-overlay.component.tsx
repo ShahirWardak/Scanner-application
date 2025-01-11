@@ -8,16 +8,20 @@ import {
   YStack,
   Sheet,
   H2,
+  H3,
   Paragraph,
   SheetProps,
   Input,
   XStack,
+  View,
+  useTheme,
+  SizableText,
 } from "tamagui";
 import React, { memo } from "react";
 import { itemType } from "@/types/item.type";
 import { cartService } from "@/services/cart.service";
 import { router } from "expo-router";
-import { Check, ChevronUp, X } from "@tamagui/lucide-icons";
+import { AlertCircle, Check, ChevronUp, Plus, X } from "@tamagui/lucide-icons";
 
 type Props = {
   item: itemType | null;
@@ -69,12 +73,7 @@ export function ScanOverlayComponent({
       />
 
       <Sheet.Handle />
-      <Sheet.Frame
-        padding="$4"
-        justifyContent="center"
-        alignItems="center"
-        gap="$5"
-      >
+      <Sheet.Frame justifyContent="center" alignItems="center" gap="$5">
         <SheetContents
           {...{
             innerOpen,
@@ -101,6 +100,8 @@ const SheetContents = memo(
     onDialogCancel,
     onDialogAccept,
   }: any) => {
+    const theme = useTheme();
+
     return (
       <>
         {item ? (
@@ -134,30 +135,52 @@ const SheetContents = memo(
               <></>
             ) : (
               <>
+                <View
+                  style={{
+                    ...styles.iconOuterWrapper,
+                    backgroundColor: theme.red3Light.val,
+                  }}
+                >
+                  <View
+                    style={{
+                      ...styles.iconInnerWrapper,
+                      backgroundColor: theme.red4Light.val,
+                    }}
+                  >
+                    <AlertCircle color={"red"} />
+                  </View>
+                </View>
                 <YStack>
-                  <Text>Item not found.</Text>
-                  <Text>Add item?</Text>
+                  <SizableText textAlign="center" size="$5" fontWeight="900">
+                    Item not found.
+                  </SizableText>
+                  <Paragraph textAlign="center">Register a new item?</Paragraph>
                 </YStack>
-                <XStack>
-                  <Button
-                    size="$6"
-                    circular
-                    color="white"
-                    backgroundColor="red"
-                    onPress={() => setOpen(false)}
-                  >
-                    No
-                  </Button>
-                  <Button
-                    size="$6"
-                    circular
-                    color="white"
-                    backgroundColor="green"
-                    onPress={() => setInnerOpen(true)}
-                  >
-                    Yes
-                  </Button>
-                </XStack>
+                <View
+                  style={styles.buttonWrapper}
+                  backgroundColor={"$gray5Light"}
+                >
+                  <XStack gap="$8" padding="$3">
+                    <Button
+                      alignSelf="center"
+                      icon={X}
+                      size="$5"
+                      onPress={() => setOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      alignSelf="center"
+                      icon={Plus}
+                      size="$5"
+                      color={"white"}
+                      backgroundColor={"$blue10"}
+                      onPress={() => setInnerOpen(true)}
+                    >
+                      Add Item
+                    </Button>
+                  </XStack>
+                </View>
                 <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
               </>
             )}
@@ -210,4 +233,21 @@ function InnerSheet(props: SheetProps) {
 
 const styles = StyleSheet.create({
   container: {},
+  buttonWrapper: {
+    alignItems: "center",
+    width: "100%",
+  },
+  buttonStyle: {},
+  iconOuterWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+  },
+  iconInnerWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+  },
 });
