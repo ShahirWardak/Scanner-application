@@ -1,4 +1,4 @@
-import { cartType } from "@/types/cart.type";
+import { CartItem, cartType } from "@/types/cart.type";
 import { itemType } from "@/types/item.type";
 
 export class CartService {
@@ -9,11 +9,21 @@ export class CartService {
   }
 
   addToCart(item: itemType, quantity: number) {
-    this.itemCart.items.push({
-      item: item,
-      quantity: quantity,
-      totalCost: this._calculateTotal(item, quantity),
-    });
+    const existingCartItem = this._getCartItem(item);
+
+    if (existingCartItem) {
+      existingCartItem.quantity += quantity;
+      existingCartItem.totalCost = this._calculateTotal(
+        item,
+        existingCartItem.quantity
+      );
+    } else {
+      this.itemCart.items.push({
+        item: item,
+        quantity: quantity,
+        totalCost: this._calculateTotal(item, quantity),
+      });
+    }
   }
 
   removeFromCart(item: itemType) {
@@ -24,6 +34,12 @@ export class CartService {
 
   private _calculateTotal(item: itemType, quantity: number) {
     return item.cost * quantity;
+  }
+
+  private _getCartItem(item: itemType): CartItem | undefined {
+    return this.itemCart.items.find(
+      (cartItem) => cartItem.item.code === item.code
+    );
   }
 }
 
