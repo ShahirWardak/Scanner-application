@@ -1,23 +1,29 @@
 import { StyleSheet } from "react-native";
 import {
-  AlertDialog,
   Button,
-  Text,
-  Spinner,
-  VisuallyHidden,
   YStack,
   Sheet,
   H2,
   Paragraph,
   SheetProps,
-  Input,
   XStack,
+  View,
+  useTheme,
+  SizableText,
+  Spinner,
 } from "tamagui";
 import React, { memo } from "react";
 import { itemType } from "@/types/item.type";
 import { cartService } from "@/services/cart.service";
 import { router } from "expo-router";
-import { Check, ChevronUp, X } from "@tamagui/lucide-icons";
+import {
+  AlertCircle,
+  Check,
+  CheckCircle,
+  Plus,
+  Trash2,
+  X,
+} from "@tamagui/lucide-icons";
 
 type Props = {
   item: itemType | null;
@@ -69,12 +75,7 @@ export function ScanOverlayComponent({
       />
 
       <Sheet.Handle />
-      <Sheet.Frame
-        padding="$4"
-        justifyContent="center"
-        alignItems="center"
-        gap="$5"
-      >
+      <Sheet.Frame justifyContent="center" alignItems="center" gap="$5">
         <SheetContents
           {...{
             innerOpen,
@@ -101,63 +102,115 @@ const SheetContents = memo(
     onDialogCancel,
     onDialogAccept,
   }: any) => {
+    const theme = useTheme();
+
     return (
       <>
         {item ? (
           <>
-            <YStack>
-              <Text>{item.name}</Text>
-              <Text>{item.cost}</Text>
-            </YStack>
-            <XStack>
-              <Button
-                size="$6"
-                circular
-                color="white"
-                backgroundColor="red"
-                icon={X}
-                onPress={() => onDialogCancel()}
-              />
-              <Button
-                size="$6"
-                circular
-                color="white"
-                backgroundColor="green"
-                icon={Check}
-                onPress={() => onDialogAccept()}
-              />
-            </XStack>
+            <View style={styles.sheetInner}>
+              <View
+                style={{
+                  ...styles.iconOuterWrapper,
+                  backgroundColor: theme.green3.val,
+                }}
+              >
+                <View
+                  style={{
+                    ...styles.iconInnerWrapper,
+                    backgroundColor: theme.green4.val,
+                  }}
+                >
+                  <CheckCircle color={"green"} />
+                </View>
+              </View>
+              <YStack>
+                <SizableText textAlign="center" size="$5" fontWeight="900">
+                  {item.name}
+                </SizableText>
+                <Paragraph textAlign="center">{item.cost}</Paragraph>
+              </YStack>
+              <View style={styles.buttonWrapper} backgroundColor={"$gray5"}>
+                <XStack gap="$8" padding="$3">
+                  <Button
+                    alignSelf="center"
+                    icon={Trash2}
+                    size="$5"
+                    backgroundColor={"$red10"}
+                    onPress={() => onDialogCancel()}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    alignSelf="center"
+                    icon={Check}
+                    size="$5"
+                    color={"white"}
+                    backgroundColor={"$green10"}
+                    onPress={() => onDialogAccept()}
+                  >
+                    Confirm
+                  </Button>
+                </XStack>
+              </View>
+            </View>
           </>
         ) : (
           <>
             {loading ? (
-              <></>
+              <>
+                <Spinner />
+              </>
             ) : (
               <>
-                <YStack>
-                  <Text>Item not found.</Text>
-                  <Text>Add item?</Text>
-                </YStack>
-                <XStack>
-                  <Button
-                    size="$6"
-                    circular
-                    color="white"
-                    backgroundColor="red"
-                    onPress={() => setOpen(false)}
+                <View style={styles.sheetInner}>
+                  <View
+                    style={{
+                      ...styles.iconOuterWrapper,
+                      backgroundColor: theme.red3.val,
+                    }}
                   >
-                    No
-                  </Button>
-                  <Button
-                    size="$6"
-                    circular
-                    color="white"
-                    backgroundColor="green"
-                    onPress={() => setInnerOpen(true)}
-                  >
-                    Yes
-                  </Button>
-                </XStack>
+                    <View
+                      style={{
+                        ...styles.iconInnerWrapper,
+                        backgroundColor: theme.red4.val,
+                      }}
+                    >
+                      <AlertCircle color={"red"} />
+                    </View>
+                  </View>
+                  <YStack>
+                    <SizableText textAlign="center" size="$5" fontWeight="900">
+                      Item not found.
+                    </SizableText>
+                    <Paragraph textAlign="center">
+                      Register a new item?
+                    </Paragraph>
+                  </YStack>
+                  <View style={styles.buttonWrapper} backgroundColor={"$gray5"}>
+                    <XStack gap="$8" padding="$3">
+                      <Button
+                        alignSelf="center"
+                        icon={X}
+                        size="$5"
+                        backgroundColor={"$backgroundTransparent"}
+                        onPress={() => setOpen(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        alignSelf="center"
+                        icon={Plus}
+                        size="$5"
+                        color={"white"}
+                        backgroundColor={"$blue10"}
+                        onPress={() => setInnerOpen(true)}
+                      >
+                        Add Item
+                      </Button>
+                    </XStack>
+                  </View>
+                </View>
                 <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
               </>
             )}
@@ -210,4 +263,29 @@ function InnerSheet(props: SheetProps) {
 
 const styles = StyleSheet.create({
   container: {},
+  sheetInner: {
+    flex: 1,
+    justifyContent: "space-between",
+    width: "100%",
+    paddingTop: 40,
+  },
+  buttonWrapper: {
+    alignItems: "center",
+    width: "100%",
+    padding: 10,
+  },
+  buttonStyle: {},
+  iconOuterWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+    alignSelf: "center",
+  },
+  iconInnerWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+  },
 });
