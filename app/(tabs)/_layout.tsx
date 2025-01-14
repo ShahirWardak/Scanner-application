@@ -25,7 +25,16 @@ export default function TabLayout() {
         options={{
           title: "Scanner",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
+            <FontAwesome size={28} name="camera-retro" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="item-search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="search" color={color} />
           ),
         }}
       />

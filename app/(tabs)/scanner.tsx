@@ -15,7 +15,7 @@ import { ItemSearchComponent } from "@/components/item-search.component";
 export default function Scanner() {
   // Test item code: 1234567890128
   const [item, setItem] = useState<itemType | null>(null);
-  const [openDialog, setOpenDialog] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
   const [searchPending, setSearchPending] = useState(false);
   const [loading, setLoading] = useState(false);
   const themeName = useThemeName();
@@ -66,7 +66,6 @@ export default function Scanner() {
     <View style={styles.container}>
       <View style={styles.cameraWrapper}>
         <CameraComponent function={handleItemScan} />
-        <ItemSearchComponent handleFunction={handleItemSearch} />
 
         {openDialog && (
           <ScanOverlayComponent
@@ -88,16 +87,6 @@ export default function Scanner() {
         }}
       >
         Open
-      </Button>
-      <Button
-        themeInverse
-        size="$6"
-        style={styles.buttonStyle}
-        onPress={() => {
-          router.replace("/");
-        }}
-      >
-        Back
       </Button>
     </View>
   );
