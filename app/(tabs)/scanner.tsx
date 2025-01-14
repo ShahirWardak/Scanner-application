@@ -65,36 +65,17 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       <View style={styles.cameraWrapper}>
-        {!openDialog && (
-          <>
-            <CameraComponent function={handleItemScan} />
-            <ItemSearchComponent handleFunction={handleItemSearch} />
-          </>
-        )}
+        <CameraComponent function={handleItemScan} />
+        <ItemSearchComponent handleFunction={handleItemSearch} />
 
         {openDialog && (
-          <>
-            {/*
-            <ScanDialogComponent
-              item={item}
-              loading={loading}
-              open={openDialog}
-              setOpen={setOpenDialog}
-              setScanning={setScanPending}
-            />
-            */}
-            <Spinner
-              size="large"
-              color={themeName === "dark" ? "lightgray" : "gray"}
-            ></Spinner>
-            <ScanOverlayComponent
-              item={item}
-              loading={loading}
-              open={openDialog}
-              setOpen={setOpenDialog}
-              setSearching={setSearchPending}
-            />
-          </>
+          <ScanOverlayComponent
+            item={item}
+            loading={loading}
+            open={openDialog}
+            setOpen={setOpenDialog}
+            setSearching={setSearchPending}
+          />
         )}
       </View>
 
