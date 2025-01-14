@@ -10,85 +10,19 @@ import {
   Separator,
   XStack,
   ScrollView,
+  SizableText,
+  useTheme,
 } from "tamagui";
 import React, { useState } from "react";
 import { cartType } from "@/types/cart.type";
 import { cartService } from "@/services/cart.service";
-import { X } from "@tamagui/lucide-icons";
+import { ShoppingBasket, X, XCircle } from "@tamagui/lucide-icons";
 import { itemType } from "@/types/item.type";
 
 export default function ItemCart() {
-  //const [itemCart, setItemCart] = useState<cartType>(cartService.getItemCart());
-  const [itemCart, setItemCart] = useState<cartType>({
-    items: [
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-      {
-        item: { name: "Test Item", code: 123456, cost: 3.99 },
-        quantity: 1,
-        totalCost: 3.99,
-      },
-    ],
-  });
+  const [itemCart, setItemCart] = useState<cartType>(cartService.getItemCart());
 
+  const theme = useTheme();
   const themeName = useThemeName();
 
   function removeItem(item: itemType) {
@@ -97,13 +31,35 @@ export default function ItemCart() {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "center",
+        paddingHorizontal: 20,
+      }}
+    >
+      <View
+        style={{
+          ...styles.iconOuterWrapper,
+          backgroundColor: theme.gray4.val,
+        }}
+      >
+        <View
+          style={{
+            ...styles.iconInnerWrapper,
+            backgroundColor: theme.gray6.val,
+          }}
+        >
+          <ShoppingBasket size="$6" />
+        </View>
+      </View>
+
       {itemCart.items.length > 0 ? (
         <YGroup
-          alignSelf="center"
           bordered
-          width={300}
+          width="100%"
           size="$5"
+          gap="$1.5"
           separator={<Separator />}
         >
           {itemCart.items.map((obj, index) => (
@@ -111,61 +67,60 @@ export default function ItemCart() {
               <ListItem
                 hoverTheme
                 pressTheme
-                iconAfter={X}
+                iconAfter={XCircle}
                 scaleIcon={1.4}
+                color={"$red10"}
                 onPress={() => {
                   removeItem(obj.item);
                 }}
               >
+                <XStack>
+                  <SizableText size="$6" fontWeight="bold">
+                    {obj.quantity.toString()}
+                  </SizableText>
+                </XStack>
                 <YStack>
-                  <Text style={styles.itemTitle}>{obj.item.name}</Text>
-                  <XStack style={styles.itemSubTitleWrapper}>
-                    <Text
-                      style={styles.itemSubTitle}
-                      color={themeName === "dark" ? "lightgray" : "gray"}
-                    >
-                      {obj.totalCost.toString()}
-                    </Text>
-                    <Text
-                      style={styles.itemSubTitle}
-                      color={themeName === "dark" ? "lightgray" : "gray"}
-                    >
-                      {obj.quantity.toString()}
-                    </Text>
-                  </XStack>
+                  <SizableText size="$6" fontWeight="bold">
+                    {obj.item.name}
+                  </SizableText>
+                  <SizableText size="$5">
+                    {obj.totalCost.toString()}
+                  </SizableText>
                 </YStack>
               </ListItem>
             </YGroup.Item>
           ))}
         </YGroup>
       ) : (
-        <Text
+        <SizableText
+          size="$6"
           style={styles.emptyText}
           color={themeName === "dark" ? "lightgray" : "gray"}
         >
           Cart is empty
-        </Text>
+        </SizableText>
       )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  itemWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   emptyText: {
-    fontSize: 16,
+    textAlign: "center",
     fontStyle: "italic",
   },
-  itemTitle: {
-    fontSize: 20,
+  iconOuterWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+    alignSelf: "center",
+    marginBottom: 30,
   },
-  itemSubTitleWrapper: {
-    justifyContent: "space-between",
-  },
-  itemSubTitle: {
-    fontSize: 14,
+  iconInnerWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
   },
 });
