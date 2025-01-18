@@ -12,6 +12,7 @@ import { ScanDialogComponent } from "@/components/scan-dialog.component";
 import { ScanOverlayComponent } from "@/components/scan-overlay.component";
 import { ItemSearchComponent } from "@/components/item-search.component";
 import { ScanBarcode } from "@tamagui/lucide-icons";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Scanner() {
   // Test item code: 1234567890128
@@ -21,9 +22,10 @@ export default function Scanner() {
   const [loading, setLoading] = useState(false);
   const themeName = useThemeName();
   const theme = useTheme();
+  const isFocused = useIsFocused();
 
   function handleItemScan(itemCode: number) {
-    if (searchPending) {
+    if (!isFocused || searchPending) {
       return;
     }
     setSearchPending(true);

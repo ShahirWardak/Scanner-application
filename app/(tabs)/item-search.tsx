@@ -58,7 +58,10 @@ export default function ItemSearch() {
             <Search size="$6" />
           </View>
         </View>
-        <ItemSearchComponent handleFunction={handleItemSearch} />
+
+        <View style={styles.searchInputWrapper}>
+          <ItemSearchComponent handleFunction={handleItemSearch} />
+        </View>
 
         {openDialog && (
           <ScanOverlayComponent
@@ -82,6 +85,10 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     //paddingBottom: 100,
     justifyContent: "center",
+  },
+  searchInputWrapper: {
+    width: "100%",
+    paddingHorizontal: 20,
   },
   iconOuterWrapper: {
     justifyContent: "center",

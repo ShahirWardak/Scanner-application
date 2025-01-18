@@ -194,7 +194,7 @@ const SheetContents = memo(
                         icon={X}
                         size="$5"
                         backgroundColor={"$backgroundTransparent"}
-                        onPress={() => setOpen(false)}
+                        onPress={() => onDialogCancel()}
                       >
                         Cancel
                       </Button>
