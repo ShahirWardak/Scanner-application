@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
-import { Button, Spinner, useThemeName } from "tamagui";
+import { Button, Spinner, useTheme, useThemeName } from "tamagui";
 import { useState } from "react";
 import { CameraComponent } from "@/components/camera.component";
 import { itemType } from "@/types/item.type";
@@ -11,6 +11,7 @@ import { cartService } from "@/services/cart.service";
 import { ScanDialogComponent } from "@/components/scan-dialog.component";
 import { ScanOverlayComponent } from "@/components/scan-overlay.component";
 import { ItemSearchComponent } from "@/components/item-search.component";
+import { ScanBarcode } from "@tamagui/lucide-icons";
 
 export default function Scanner() {
   // Test item code: 1234567890128
@@ -19,6 +20,7 @@ export default function Scanner() {
   const [searchPending, setSearchPending] = useState(false);
   const [loading, setLoading] = useState(false);
   const themeName = useThemeName();
+  const theme = useTheme();
 
   function handleItemScan(itemCode: number) {
     if (searchPending) {
@@ -65,6 +67,22 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       <View style={styles.cameraWrapper}>
+        <View
+          style={{
+            ...styles.iconOuterWrapper,
+            backgroundColor: theme.gray4.val,
+          }}
+        >
+          <View
+            style={{
+              ...styles.iconInnerWrapper,
+              backgroundColor: theme.gray6.val,
+            }}
+          >
+            <ScanBarcode size="$6" />
+          </View>
+        </View>
+
         <CameraComponent function={handleItemScan} />
 
         {openDialog && (
@@ -77,17 +95,6 @@ export default function Scanner() {
           />
         )}
       </View>
-
-      <Button
-        themeInverse
-        size="$6"
-        style={styles.buttonStyle}
-        onPress={() => {
-          onDialogOpen();
-        }}
-      >
-        Open
-      </Button>
     </View>
   );
 }
@@ -101,23 +108,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  buttonStyle: {
-    width: "95%",
-    margin: 40,
-    fontWeight: "bold",
-    fontSize: 24,
-    backgroundColor: "red",
-    color: "white",
-
-    //Shadows:
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-
-    elevation: 12,
+  iconOuterWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
+    alignSelf: "center",
+    marginBottom: 30,
+  },
+  iconInnerWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 10,
   },
 });
