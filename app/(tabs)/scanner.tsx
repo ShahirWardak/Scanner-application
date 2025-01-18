@@ -43,25 +43,6 @@ export default function Scanner() {
     });
   }
 
-  function handleItemSearch(itemName: string) {
-    if (searchPending) {
-      return;
-    }
-    setSearchPending(true);
-    setLoading(true);
-    onDialogOpen();
-
-    databaseService.fetchItemByName(itemName).then((data) => {
-      if (data) {
-        setItem(data);
-      } else {
-        setItem(null);
-      }
-
-      setLoading(false);
-    });
-  }
-
   function onDialogOpen() {
     setOpenDialog(true);
   }
