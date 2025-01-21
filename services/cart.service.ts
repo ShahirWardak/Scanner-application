@@ -8,21 +8,25 @@ export class CartService {
         item: { name: "Test Item 1", code: 189711, cost: 3.99 },
         quantity: 1,
         totalCost: 3.99,
+        dateAdded: new Date(),
       },
       {
         item: { name: "Test Item 2", code: 561654, cost: 3.99 },
         quantity: 1,
         totalCost: 3.99,
+        dateAdded: new Date(),
       },
       {
         item: { name: "Test Item 3", code: 123456, cost: 3.99 },
         quantity: 1,
         totalCost: 3.99,
+        dateAdded: new Date(),
       },
       {
         item: { name: "Test Item 4", code: 1234356, cost: 3.99 },
         quantity: 1,
         totalCost: 3.99,
+        dateAdded: new Date(),
       },
     ],
   };
@@ -45,6 +49,7 @@ export class CartService {
         item: item,
         quantity: quantity,
         totalCost: this._calculateTotal(item, quantity),
+        dateAdded: new Date(),
       });
     }
   }

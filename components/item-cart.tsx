@@ -13,17 +13,22 @@ import {
   SizableText,
   useTheme,
 } from "tamagui";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cartType } from "@/types/cart.type";
 import { cartService } from "@/services/cart.service";
 import { ShoppingBasket, X, XCircle } from "@tamagui/lucide-icons";
 import { itemType } from "@/types/item.type";
+import { format } from "date-fns";
 
 export default function ItemCart() {
   const [itemCart, setItemCart] = useState<cartType>(cartService.getItemCart());
 
   const theme = useTheme();
   const themeName = useThemeName();
+
+  useEffect(() => {
+    setItemCart(cartService.getItemCart());
+  });
 
   function removeItem(item: itemType) {
     cartService.removeFromCart(item);
@@ -74,19 +79,26 @@ export default function ItemCart() {
                   removeItem(obj.item);
                 }}
               >
-                <XStack>
+                <XStack width={"10%"}>
                   <SizableText size="$6" fontWeight="bold">
                     {obj.quantity.toString()}
                   </SizableText>
                 </XStack>
-                <YStack>
+                <YStack width={"60%"}>
                   <SizableText size="$6" fontWeight="bold">
                     {obj.item.name}
                   </SizableText>
-                  <SizableText size="$5">
+                  {obj.dateAdded && (
+                    <SizableText size="$4">
+                      {format(obj.dateAdded, "dd/MM/yy HH:mm")}
+                    </SizableText>
+                  )}
+                </YStack>
+                <XStack>
+                  <SizableText size="$6">
                     {obj.totalCost.toString()}
                   </SizableText>
-                </YStack>
+                </XStack>
               </ListItem>
             </YGroup.Item>
           ))}
