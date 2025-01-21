@@ -237,8 +237,6 @@ function InnerSheet(props: SheetProps) {
         enterStyle={{ opacity: 0 }}
         exitStyle={{ opacity: 0 }}
       />
-
-      <Sheet.Handle />
       <Sheet.Frame
         flex={1}
         justifyContent="center"
@@ -246,6 +244,9 @@ function InnerSheet(props: SheetProps) {
         gap="$5"
       >
         <YStack p="$5" gap="$8">
+          <SizableText textAlign="center" size="$5" fontWeight="900">
+            Register new item
+          </SizableText>
           <Button
             size="$6"
             circular
@@ -253,8 +254,6 @@ function InnerSheet(props: SheetProps) {
             icon={X}
             onPress={() => props.onOpenChange?.(false)}
           />
-
-          <H2>Hello world</H2>
         </YStack>
       </Sheet.Frame>
     </Sheet>

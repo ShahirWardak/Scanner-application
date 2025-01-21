@@ -26,16 +26,18 @@ export class DatabaseService {
   }
 
   // Update database
-  public async addData() {
-    try {
-      const docRef = await addDoc(collection(FIREBASE_DB, "items"), {
-        code: 1234567890003,
-        cost: 1.99,
-        name: "Test item",
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+  public async addData(code: number, cost: number, name: string) {
+    if (code && cost && name) {
+      try {
+        const docRef = await addDoc(collection(FIREBASE_DB, "items"), {
+          code: code,
+          cost: cost,
+          name: name,
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
   }
 
