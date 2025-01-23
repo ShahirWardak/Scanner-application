@@ -3,7 +3,7 @@ import { View } from "react-native";
 import ItemCart from "../../components/item-cart";
 import React, { useState } from "react";
 import { Search } from "@tamagui/lucide-icons";
-import { ItemSearchComponent } from "@/components/item-search.component";
+import { UserInputComponent } from "@/components/user-input.component";
 import { databaseService } from "@/services/database.service";
 import { ScanOverlayComponent } from "@/components/scan-overlay.component";
 import { itemType } from "@/types/item.type";
@@ -58,7 +58,14 @@ export default function ItemSearch() {
             <Search size="$6" />
           </View>
         </View>
-        <ItemSearchComponent handleFunction={handleItemSearch} />
+
+        <View style={styles.searchInputWrapper}>
+          <UserInputComponent
+            handleFunction={handleItemSearch}
+            placeholder="Search item..."
+            buttonText="Search"
+          />
+        </View>
 
         {openDialog && (
           <ScanOverlayComponent
@@ -82,6 +89,10 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     //paddingBottom: 100,
     justifyContent: "center",
+  },
+  searchInputWrapper: {
+    width: "100%",
+    paddingHorizontal: 20,
   },
   iconOuterWrapper: {
     justifyContent: "center",
