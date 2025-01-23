@@ -2,7 +2,7 @@ import { CartItem, cartType } from "@/types/cart.type";
 import { itemType } from "@/types/item.type";
 
 export class CartService {
-  private itemCart: cartType = {
+  /*private itemCart: cartType = {
     items: [
       {
         item: { name: "Test Item 1", code: 189711, cost: 3.99 },
@@ -29,7 +29,8 @@ export class CartService {
         dateAdded: new Date(),
       },
     ],
-  };
+  };*/
+  private itemCart: cartType = { items: [] };
 
   getItemCart(): cartType {
     return this.itemCart;

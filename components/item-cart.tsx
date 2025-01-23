@@ -102,7 +102,7 @@ export default function ItemCart() {
                 </YStack>
                 <XStack>
                   <SizableText size="$6">
-                    {obj.totalCost.toString()}
+                    {`£ ${obj.totalCost.toString()}`}
                   </SizableText>
                 </XStack>
               </ListItem>

@@ -3,7 +3,7 @@ import { View } from "react-native";
 import ItemCart from "../../components/item-cart";
 import React, { useState } from "react";
 import { Search } from "@tamagui/lucide-icons";
-import { UserInputComponent } from "@/components/item-search.component";
+import { UserInputComponent } from "@/components/user-input.component";
 import { databaseService } from "@/services/database.service";
 import { ScanOverlayComponent } from "@/components/scan-overlay.component";
 import { itemType } from "@/types/item.type";

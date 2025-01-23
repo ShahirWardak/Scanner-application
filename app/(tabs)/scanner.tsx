@@ -10,7 +10,6 @@ import React from "react";
 import { cartService } from "@/services/cart.service";
 import { ScanDialogComponent } from "@/components/scan-dialog.component";
 import { ScanOverlayComponent } from "@/components/scan-overlay.component";
-import { ItemSearchComponent } from "@/components/item-search.component";
 import { ScanBarcode } from "@tamagui/lucide-icons";
 import { useIsFocused } from "@react-navigation/native";
 

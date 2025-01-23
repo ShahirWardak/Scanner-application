@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { StyleSheet } from "react-native";
-import { TamaguiProvider, useThemeName, Text, View } from "tamagui";
+import { SizableText, TamaguiProvider, useThemeName } from "tamagui";
 import { useColorScheme } from "react-native";
 import {
   DarkTheme,
@@ -11,7 +11,8 @@ import { StatusBar } from "expo-status-bar";
 import config from "@/tamagui.config";
 import { useState } from "react";
 import { userService } from "@/services/user.service";
-import { UserInputComponent } from "@/components/item-search.component";
+import { View } from "react-native";
+import { UserInputComponent } from "@/components/user-input.component";
 
 //import config from "../tamagui.config";
 
@@ -34,7 +35,15 @@ export default function RootLayout() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
         ) : (
-          <View style={styles.roomInputWrapper}>
+          <View
+            style={{
+              ...styles.roomInputWrapper,
+              backgroundColor: colorScheme === "dark" ? "black" : "white",
+            }}
+          >
+            <SizableText size="$9" style={styles.roomHeader}>
+              Enter room ID
+            </SizableText>
             <UserInputComponent
               handleFunction={updateRoomId}
               placeholder="Room ID..."
@@ -54,5 +63,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     paddingHorizontal: 20,
+  },
+  roomHeader: {
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: 30,
   },
 });
