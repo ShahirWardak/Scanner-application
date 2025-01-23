@@ -19,9 +19,11 @@ import { cartService } from "@/services/cart.service";
 import { ShoppingBasket, X, XCircle } from "@tamagui/lucide-icons";
 import { itemType } from "@/types/item.type";
 import { format } from "date-fns";
+import { userService } from "@/services/user.service";
 
 export default function ItemCart() {
   const [itemCart, setItemCart] = useState<cartType>(cartService.getItemCart());
+  const [roomId] = useState<string>(userService.getRoomId());
 
   const theme = useTheme();
   const themeName = useThemeName();
@@ -58,6 +60,10 @@ export default function ItemCart() {
           <ShoppingBasket size="$6" />
         </View>
       </View>
+
+      <SizableText size="$8" style={styles.userHeader}>
+        {roomId}
+      </SizableText>
 
       {itemCart.items.length > 0 ? (
         <YGroup
@@ -121,13 +127,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontStyle: "italic",
   },
+  userHeader: {
+    textAlign: "center",
+    marginBottom: 20,
+    fontWeight: "bold",
+  },
   iconOuterWrapper: {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
     padding: 10,
     alignSelf: "center",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   iconInnerWrapper: {
     justifyContent: "center",

@@ -5,9 +5,15 @@ import React, { useState } from "react";
 
 type Props = {
   handleFunction: Function;
+  placeholder: string;
+  buttonText: string;
 };
 
-export function ItemSearchComponent({ handleFunction }: Props) {
+export function UserInputComponent({
+  handleFunction,
+  placeholder,
+  buttonText,
+}: Props) {
   const [text, setText] = useState("");
 
   return (
@@ -17,7 +23,7 @@ export function ItemSearchComponent({ handleFunction }: Props) {
           borderWidth={2}
           size="$5"
           width="100%"
-          placeholder="Search item..."
+          placeholder={placeholder}
           onChangeText={(val) => setText(val)}
         />
         <Button
@@ -30,7 +36,7 @@ export function ItemSearchComponent({ handleFunction }: Props) {
             Keyboard.dismiss();
           }}
         >
-          Search
+          {buttonText}
         </Button>
       </YStack>
     </>
