@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Tabs } from "expo-router";
 import { ScanBarcode, Search, ShoppingBasket } from "@tamagui/lucide-icons";
-import { useThemeName, View } from "tamagui";
+import { useThemeName } from "tamagui";
 
 export default function TabLayout() {
   const themeName = useThemeName();
@@ -26,7 +26,7 @@ export default function TabLayout() {
           title: "Items",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <View style={styles.iconWrapperStyles} backgroundColor="green">
+              <View style={styles.iconWrapperStyles}>
                 <ShoppingBasket size="$2" color={color} />
               </View>
             ) : (
@@ -40,7 +40,7 @@ export default function TabLayout() {
           title: "Scan",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <View style={styles.iconWrapperStyles} backgroundColor="green">
+              <View style={styles.iconWrapperStyles}>
                 <ScanBarcode size="$2" color={color} />
               </View>
             ) : (
@@ -54,7 +54,7 @@ export default function TabLayout() {
           title: "Search",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <View style={styles.iconWrapperStyles} backgroundColor="green">
+              <View style={styles.iconWrapperStyles}>
                 <Search size="$2" color={color} />
               </View>
             ) : (
@@ -85,5 +85,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 40,
     borderRadius: 50,
+    backgroundColor: "green",
   },
 });

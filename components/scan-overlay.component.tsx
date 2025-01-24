@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Button,
   YStack,
@@ -7,7 +7,6 @@ import {
   Paragraph,
   SheetProps,
   XStack,
-  View,
   useTheme,
   SizableText,
   Spinner,
@@ -130,7 +129,9 @@ const SheetContents = memo(
                 </SizableText>
                 <Paragraph textAlign="center">{item.cost}</Paragraph>
               </YStack>
-              <View style={styles.buttonWrapper} backgroundColor={"$gray5"}>
+              <View
+                style={{ ...styles.buttonWrapper, backgroundColor: "$gray5" }}
+              >
                 <XStack gap="$8" padding="$3">
                   <Button
                     alignSelf="center"
@@ -187,7 +188,12 @@ const SheetContents = memo(
                       Register a new item?
                     </Paragraph>
                   </YStack>
-                  <View style={styles.buttonWrapper} backgroundColor={"$gray5"}>
+                  <View
+                    style={{
+                      ...styles.buttonWrapper,
+                      backgroundColor: "$gray5",
+                    }}
+                  >
                     <XStack gap="$8" padding="$3">
                       <Button
                         alignSelf="center"
