@@ -1,5 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CartItem, cartType } from "@/types/cart.type";
 import { itemType } from "@/types/item.type";
+
+const CART_STORAGE_KEY = "cart_items";
 
 export class CartService {
   /*private itemCart: cartType = {
@@ -50,11 +53,15 @@ export class CartService {
   };*/
   private itemCart: cartType = { items: [] };
 
+  constructor() {
+    this.loadCartFromStorage();
+  }
+
   getItemCart(): cartType {
     return this.itemCart;
   }
 
-  addToCart(item: itemType, quantity: number) {
+  async addToCart(item: itemType, quantity: number) {
     const existingCartItem = this._getCartItem(item);
 
     if (existingCartItem) {
@@ -71,12 +78,21 @@ export class CartService {
         dateAdded: new Date(),
       });
     }
+
+    await this.saveCartToStorage();
   }
 
-  removeFromCart(item: itemType) {
+  async removeFromCart(item: itemType) {
     this.itemCart.items = this.itemCart.items.filter(
-      (cartItem) => cartItem.item !== item
+      (cartItem) => cartItem.item.code !== item.code
     );
+
+    await this.saveCartToStorage();
+  }
+
+  async clearCart() {
+    this.itemCart = { items: [] };
+    await this.saveCartToStorage();
   }
 
   private _calculateTotal(item: itemType, quantity: number) {
@@ -88,7 +104,31 @@ export class CartService {
       (cartItem) => cartItem.item.code === item.code
     );
   }
+
+  // Load cart from AsyncStorage when the app starts
+  private async loadCartFromStorage() {
+    try {
+      const storedCart = await AsyncStorage.getItem(CART_STORAGE_KEY);
+      if (storedCart) {
+        this.itemCart = JSON.parse(storedCart);
+      }
+    } catch (error) {
+      console.error("Failed to load cart:", error);
+    }
+  }
+
+  // Save cart to AsyncStorage whenever an item is added or removed
+  private async saveCartToStorage() {
+    try {
+      await AsyncStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(this.itemCart)
+      );
+    } catch (error) {
+      console.error("Failed to save cart:", error);
+    }
+  }
 }
 
-// Using this so that it is a singleton:
+// Ensure it remains a singleton
 export const cartService = new CartService();
