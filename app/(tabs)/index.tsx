@@ -19,22 +19,24 @@ export default function Index() {
   return (
     <>
       <View style={styles.container}>
-        <Button
-          radiused
-          alignSelf="flex-end"
-          size="$4"
-          marginRight={20}
-          marginBottom={20}
-          backgroundColor={"green"}
-          onPress={() => {
-            basketComplete();
-          }}
-        >
-          <SizableText color="white" size="$6">
-            Submit
-          </SizableText>
-          <Check color="white" size="$2" />
-        </Button>
+        {itemCart.items.length > 0 && (
+          <Button
+            radiused
+            alignSelf="flex-end"
+            size="$4"
+            marginRight={20}
+            marginBottom={20}
+            backgroundColor={"green"}
+            onPress={() => {
+              basketComplete();
+            }}
+          >
+            <SizableText color="white" size="$6">
+              Submit
+            </SizableText>
+            <Check color="white" size="$2" />
+          </Button>
+        )}
         <View style={styles.cartWrapper}>
           <ItemCart />
         </View>
