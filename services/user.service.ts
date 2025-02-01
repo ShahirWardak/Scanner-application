@@ -1,4 +1,5 @@
 import { cartType } from "@/types/cart.type";
+import { format } from "date-fns";
 import { Linking } from "react-native";
 
 export class UserService {
@@ -21,7 +22,11 @@ export class UserService {
     // Format the email body
     const body = `Room: ${room}\n\nInventory:\n${cart.items
       .map(
-        (item) => `- ${item.item.name}: ${item.quantity} x ${item.totalCost}`
+        (item) =>
+          `- ${item.item.name} (x${item.quantity}):  ${format(
+            item.dateAdded!,
+            "dd/MM/yy - HH:mm"
+          )}    [${item.totalCost}]`
       )
       .join("\n")}\n\nTotal Cost: ${totalCost.toFixed(2)}`;
 

@@ -127,7 +127,7 @@ const SheetContents = memo(
                 <SizableText textAlign="center" size="$5" fontWeight="900">
                   {item.name}
                 </SizableText>
-                <Paragraph textAlign="center">{item.cost}</Paragraph>
+                <Paragraph textAlign="center">£ {item.cost}</Paragraph>
               </YStack>
               <View
                 style={{ ...styles.buttonWrapper, backgroundColor: "$gray5" }}

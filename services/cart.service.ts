@@ -28,6 +28,24 @@ export class CartService {
         totalCost: 3.99,
         dateAdded: new Date(),
       },
+      {
+        item: { name: "Test Item 4", code: 1234356, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+        dateAdded: new Date(),
+      },
+      {
+        item: { name: "Test Item 4", code: 1234356, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+        dateAdded: new Date(),
+      },
+      {
+        item: { name: "Test Item 4", code: 1234356, cost: 3.99 },
+        quantity: 1,
+        totalCost: 3.99,
+        dateAdded: new Date(),
+      },
     ],
   };*/
   private itemCart: cartType = { items: [] };
