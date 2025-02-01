@@ -1,19 +1,31 @@
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import ItemCart from "../../components/item-cart";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, SizableText } from "tamagui";
 import { Check } from "@tamagui/lucide-icons";
 import { cartType } from "@/types/cart.type";
 import { cartService } from "@/services/cart.service";
 import { userService } from "@/services/user.service";
+import { useNavigation } from "expo-router";
 
 export default function Index() {
+  const navigation = useNavigation();
   const [itemCart, setItemCart] = useState<cartType>(cartService.getItemCart());
   const [roomId] = useState<string>(userService.getRoomId());
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setItemCart(cartService.getItemCart());
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   function basketComplete() {
-    userService.sendInvoice(roomId, itemCart);
+    if (itemCart.items.length) {
+      userService.sendInvoice(roomId, itemCart);
+    }
   }
 
   return (
