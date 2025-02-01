@@ -43,9 +43,9 @@ export default function ItemCart() {
     setItemCart({ ...cartService.getItemCart() });
   }
 
-  function basketComplete() {
+  /*function basketComplete() {
     userService.sendInvoice(roomId, itemCart);
-  }
+  }*/
 
   return (
     <ScrollView
@@ -77,6 +77,21 @@ export default function ItemCart() {
 
       {itemCart.items.length > 0 ? (
         <>
+          {/*<Button
+            radiused
+            alignSelf="center"
+            size="$4"
+            marginBottom={20}
+            backgroundColor={"green"}
+            onPress={() => {
+              basketComplete();
+            }}
+          >
+            <SizableText color="white" size="$6">
+              Submit
+            </SizableText>
+            <Check color="white" size="$2" />
+          </Button>*/}
           <YGroup
             bordered
             width="100%"
@@ -120,18 +135,6 @@ export default function ItemCart() {
               </YGroup.Item>
             ))}
           </YGroup>
-          <Button
-            circular
-            alignSelf="center"
-            size="$6"
-            marginTop={20}
-            backgroundColor={"$blue10"}
-            onPress={() => {
-              basketComplete();
-            }}
-          >
-            <Check color="white" size="$3" />
-          </Button>
         </>
       ) : (
         <SizableText
