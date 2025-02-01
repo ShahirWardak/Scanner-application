@@ -52,6 +52,7 @@ export class CartService {
     ],
   };*/
   private itemCart: cartType = { items: [] };
+  private listeners: ((cart: cartType) => void)[] = [];
 
   constructor() {
     this.loadCartFromStorage();
@@ -59,6 +60,18 @@ export class CartService {
 
   getItemCart(): cartType {
     return this.itemCart;
+  }
+
+  // Subscribe function to trigger updates
+  subscribe(listener: (cart: cartType) => void) {
+    this.listeners.push(listener);
+    return () => {
+      this.listeners = this.listeners.filter((l) => l !== listener);
+    };
+  }
+
+  private notifyListeners() {
+    this.listeners.forEach((listener) => listener(this.itemCart));
   }
 
   async addToCart(item: itemType, quantity: number) {
@@ -106,7 +119,7 @@ export class CartService {
   }
 
   // Load cart from AsyncStorage when the app starts
-  private async loadCartFromStorage() {
+  async loadCartFromStorage() {
     try {
       const storedCart = await AsyncStorage.getItem(CART_STORAGE_KEY);
       if (storedCart) {
@@ -115,6 +128,7 @@ export class CartService {
     } catch (error) {
       console.error("Failed to load cart:", error);
     }
+    this.notifyListeners();
   }
 
   // Save cart to AsyncStorage whenever an item is added or removed
@@ -127,6 +141,7 @@ export class CartService {
     } catch (error) {
       console.error("Failed to save cart:", error);
     }
+    this.notifyListeners();
   }
 }
 
